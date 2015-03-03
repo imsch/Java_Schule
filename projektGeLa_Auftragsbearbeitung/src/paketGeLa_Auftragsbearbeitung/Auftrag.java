@@ -16,11 +16,11 @@ public class Auftrag {
 	}
 
 	public Auftragsposition holeAuftragsPositionsstelle(int stelle) {
-		return (Auftragsposition) positionsliste.toArray()[stelle];
+		return positionsliste.get(stelle);
 	}
 
 	public int anzahlAuftragspositionen() {
-		return positionsliste.toArray().length + 1;
+		return positionsliste.size() + 1;
 	}
 
 	public String Auftragsdatum() {
@@ -33,7 +33,7 @@ public class Auftrag {
 
 	public double berechneAuftragssumme() {
 		double auftragssumme = 0;
-		for (int i = 0; i < positionsliste.toArray().length; i++) {
+		for (int i = 0; i < positionsliste.size(); i++) {
 			auftragssumme = auftragssumme
 					+ holeAuftragsPositionsstelle(i).berechneVkPreis();
 		}
@@ -49,7 +49,7 @@ public class Auftrag {
 
 	public String konsolenangzeigeAPos() {
 		String returnString = "";
-		for (int i = 0; i < positionsliste.toArray().length; i++) {
+		for (int i = 0; i < positionsliste.size(); i++) {
 			returnString = returnString
 					+ holeAuftragsPositionsstelle(i)
 							.konsolenanzeigeAuftragsposition() + "\r";
