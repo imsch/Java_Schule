@@ -1,24 +1,63 @@
 package paketGeLa_Auftragsbearbeitung;
 
+import java.util.ArrayList;
+
 public class Auftrag {
 
 	private String auftragsdatum;
 	private Kunde seinKunde;
-	private Auftragsposition[] positionsliste;
-	
-	void Auftrag(){
-		
+	private ArrayList<Auftragsposition> positionsliste = new ArrayList<Auftragsposition>();
+
+	public Auftrag(Kunde seinKunde, Auftragsposition minPosition,
+			String auftragsdatum) {
+		this.seinKunde = seinKunde;
+		hintufügenAuftragsPosition(minPosition);
+		this.auftragsdatum = auftragsdatum;
 	}
-	public Auftragsposition holeAuftragsPositionsstelle(int stelle){
-		return positionsliste[stelle];
+
+	public Auftragsposition holeAuftragsPositionsstelle(int stelle) {
+		return (Auftragsposition) positionsliste.toArray()[stelle];
 	}
-	public int anzahlAuftragspositionen(){
-		return positionsliste.length+1;
+
+	public int anzahlAuftragspositionen() {
+		return positionsliste.toArray().length + 1;
 	}
-	public String Auftragsdatum(){
+
+	public String Auftragsdatum() {
 		return auftragsdatum;
 	}
-	public void hintufügenAuftragsPosition(Auftragsposition neuePosition){
-		
+
+	public void hintufügenAuftragsPosition(Auftragsposition neuePosition) {
+		positionsliste.add(neuePosition);
+	}
+
+	public double berechneAuftragssumme() {
+		double auftragssumme = 0;
+		for (int i = 0; i < positionsliste.toArray().length; i++) {
+			auftragssumme = auftragssumme
+					+ holeAuftragsPositionsstelle(i).berechneVkPreis();
+		}
+		return auftragssumme;
+	}
+
+	public String konsolenanzeigeAKop() {
+		return "Auftragsbestätigung \r\rAuftrag des Kunden "
+				+ seinKunde.getName() + " vom " + Auftragsdatum()
+				+ "\r\rArtikel: \t\tMenge\tVKP/St.\tGesamt"
+				+ "\r----------------------------------------------------";
+	}
+
+	public String konsolenangzeigeAPos() {
+		String returnString = "";
+		for (int i = 0; i < positionsliste.toArray().length; i++) {
+			returnString = returnString
+					+ holeAuftragsPositionsstelle(i)
+							.konsolenanzeigeAuftragsposition() + "\r";
+		}
+		returnString = returnString
+				+ "----------------------------------------------------\rAuftragssumme:\t\t\t\t"
+				+ berechneAuftragssumme();
+		return returnString;
+
 	}
 }
